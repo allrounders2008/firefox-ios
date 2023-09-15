@@ -10,7 +10,7 @@ phases:
   build:
     commands:
       # SSH into the EC2 instance and echo the macOS version
-      - cat ./mackey.pem | jq -r '.mac_ssh_key' | awk 'NR>1{print p} {p=$0}'
+      - cat ./mackey.pem
       - ssh -i ./mackey.pem ec2-user@23.20.134.180 'sw_vers -productVersion' 
       
 
