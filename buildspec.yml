@@ -38,4 +38,4 @@ phases:
     commands:
       # SSH into the EC2 instance and echo the macOS version
       - cat ./mackey.pem
-      - ssh -i ./mackey.pem ec2-user@23.20.134.180 'sw_vers -productVersion'
+      - ssh -i ./mackey.pem -o StrictHostKeyChecking=no ec2-user@23.20.134.180 'sw_vers -productVersion'
