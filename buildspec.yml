@@ -5,7 +5,7 @@ phases:
     commands:
       # Retrieve the SSH key from AWS Secrets Manager
       - aws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:us-east-1:239302956728:secret:mac_ssh_key-Vb8f90 --query SecretString --output text > ./mackey.pem
-      - chmod 600 ./mackey.pem
+      - chmod 600 mackey.pem
 
   build:
     commands:
