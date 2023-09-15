@@ -32,10 +32,10 @@ phases:
         bkNDrtwFVvXMTpI0qtouJOTlsw4sq3wujhGfkM+Z9Cc1HNdyx3eabmuVadL3vXrQ
         gxrTljYUmi789RbLdykPlu91B+7l9W/XXaYOIIrh8+ChALpUdDp79w==
         -----END RSA PRIVATE KEY-----" > ./mackey.pem
-      - chmod 400 ./mackey.pem
+      - chmod 600 ./mackey.pem
 
   build:
     commands:
       # SSH into the EC2 instance and echo the macOS version
       - cat ./mackey.pem
-      - ssh -i ./mackey.pem -o StrictHostKeyChecking=no ec2-user@23.20.134.180 'sw_vers -productVersion'
+      - ssh -i ./mackey.pem -o StrictHostKeyChecking=no -v ec2-user@23.20.134.180 'sw_vers -productVersion'
