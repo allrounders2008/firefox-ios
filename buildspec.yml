@@ -32,7 +32,7 @@ phases:
         bkNDrtwFVvXMTpI0qtouJOTlsw4sq3wujhGfkM+Z9Cc1HNdyx3eabmuVadL3vXrQ
         gxrTljYUmi789RbLdykPlu91B+7l9W/XXaYOIIrh8+ChALpUdDp79w==
         -----END RSA PRIVATE KEY-----" > ./mackey.pem
-      - chmod 600 ./mackey.pem
+      - chmod 400 ./mackey.pem
 
   build:
     commands:
