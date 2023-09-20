@@ -1,0 +1,41 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      # Retrieve the SSH key from AWS Secrets Manager
+      - aws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:us-east-1:239302956728:secret:mac_ssh_key-Vb8f90 --query SecretString --output text > ./mackey.pem
+      - echo "-----BEGIN RSA PRIVATE KEY-----
+        MIIEpAIBAAKCAQEAlEeoInqzDWotQUsu7+8Rx30rxoeXXEccM1P2aiRyJwzwknAs
+        9GxQpYdmCnpzDz00zZnvvzJA6p93SkmloCk6V4zZ6eYfJvEeOr6Py8AzVqQn5Vd0
+        hOMFbz1mF3iNI0ZQ7JdeZg6NRMNRV0hXCetHviUusYkby5EsjABorGd/gWjA4PT9
+        eR+cUgqu1CV70oWKq5XEI8sr1rM7ooZqiDiY4k3pYBCSjyoU0YYu7JEXrxTdrL2Q
+        /bmtk5etD7at4oUQAY+XbDtoQmecBAVFbb1ODTdW5DsXcO0Bcu35kaVHsz1P7O3N
+        4LmPT17/1q2tFxSu7l8rT/LjdJDOqQA6FIq7VQIDAQABAoIBAGPmazbfp+av1FGb
+        T8JDNZ1LjcSx8Z4wIqXKOciFSYtZwnNGtGLw3tzG/k6s9PwdZofm4InWV7o7OemI
+        +NeRL0dxFBfr/K0F4jH91W+WzH/hFSgE5fHp6e1qVnAVvjE33KmpyeXEhBUB6rl9
+        eXarV6iZ8H2YPGvIIVUpqVwOVu9eDlbVL1FESeX9apTg1P8fYZnpLlGSpT2/eUWO
+        e2+rSm1xE48MxOybyfOIDoRbVLMbk3/jZaRG2ghTNCdrOCo5egGQBRMixrkOcxo0
+        qxesh9rWPiUoXprWA6X/zrZyh++W6DCGQAWyx1cad3PT/amwHcd9EvzN9cyHROPy
+        z2STSAECgYEA/fT3M6aEzJWSURI3PyNzvlBRFif/K5j4vjEENRS2KCkd09JLSUXf
+        E7hcXy5ozckLAfnUwPlSjuya4XgmdL/g1VJOYLI3zpnu8GhbMRrBbZaH0piJ3rVE
+        4nCb0NtPutl8k83ploSc3sUFs1ZylB3s7XE2/RkArg04sewoKTVKCQECgYEAlXkL
+        kDNcuI38lu9DDJ6f4IyC0fAOba4Hib2UD39SSFHHkM35fZk0+wya5Ku4kZ2t43ic
+        vEKHtrNvJmsNAf0wca1mNlNefR8xmVFWNhDd8HI+bdaPccnzYvLa9j71xFAAcX54
+        ahR97QBiJKf2EiI0pE36+jhJJncqjkm+/PFHvlUCgYEA5UHuo78QpYvlQbC7FRGR
+        HF5vRRwoXBhFfZTMYornAoxTs/RlKKmd/7RwFzDTRerXOBpsOSUapZHtI9wOg1jw
+        xEMAJITeonEOZhMfN84aji7VQIWZ+OYVYIId98b0TA6oStoZpFrlLqoYQlSpLRNy
+        3stUw9l9ZqLi6qPxgXns8wECgYAnXZW6CIzm3h4j8ieKb0xT6y2Y9MwX/rllgVQ5
+        MKMPANq6PET02yCk7ZDtoHwffZOKUP2WZz8u0tr3F0J5v6C+j5hXvmUoNsrtQgqe
+        epq49J2Ud+mXYkSDTsp0B+jaJue2/EPiTDtN68ftN38LD48lppPuylwZkVDX4Hw4
+        SaNHcQKBgQCcUyK5QAud86Df5ErZjxqxIvNWo5my2ieoTdk2MchDLyyrln/yUYnN
+        bkNDrtwFVvXMTpI0qtouJOTlsw4sq3wujhGfkM+Z9Cc1HNdyx3eabmuVadL3vXrQ
+        gxrTljYUmi789RbLdykPlu91B+7l9W/XXaYOIIrh8+ChALpUdDp79w==
+        -----END RSA PRIVATE KEY-----" > ./mackey.pem
+      - chmod 600 ./mackey.pem
+
+  build:
+    commands:
+      # SSH into the EC2 instance and echo the macOS version
+      - cat ./mackey.pem
+      - sudo ssh -i ./mackey.pem -o StrictHostKeyChecking=no -v ec2-user@23.20.134.180 'sw_vers -productVersion'
